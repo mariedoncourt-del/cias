@@ -11,13 +11,13 @@
 */
 
 // Expéditeur
-$config['cias_email_from']      = 'contact@formacall.fr';
-$config['cias_email_from_name'] = 'CIAS - MAF Formation';
+$config['cias_email_from']      = 'maformationsas@gmail.com';
+$config['cias_email_from_name'] = 'MAF Formation';
 
 // Destinataires principaux (MAF + Gerald)
 $config['cias_email_destinataires'] = array(
     'maformationsas@gmail.com',
-    // 'gerald@exemple.fr',   // <- ajouter l'adresse de Gerald ici
+    'princetonconsulting.gerald@gmail.com',
 );
 
 // Copies (CC) éventuelles
