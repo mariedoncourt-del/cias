@@ -1,0 +1,26 @@
+name: Deploy CIAS to OVH
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FTP Deploy
+        uses: airvzxf/ftp-deployment-action@latest
+        with:
+          server: ${{ secrets.OVH_FTP_SERVER }}
+          user: ${{ secrets.OVH_FTP_USER }}
+          password: ${{ secrets.OVH_FTP_PASS }}
+          local_dir: ./
+          remote_dir: /www/cias/
+          delete: false
+          match: |
+            application/controllers/Stagiaire.php
+            application/config/cias_notifications.php
+            application/views/includes/header.php
+            application/views/includes/footer.php
+            assets/cias-ameliorations.js
+            assets/dist/css/cias-ameliorations.css
