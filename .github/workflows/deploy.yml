@@ -9,20 +9,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install lftp
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
-      
-      - name: FTP Deploy - Stagiaire.php
-        run: lftp -c "open -u ${{ secrets.OVH_FTP_USER }},${{ secrets.OVH_FTP_PASS }} ${{ secrets.OVH_FTP_SERVER }}; put -O /www/cias/application/controllers/ application/controllers/Stagiaire.php"
-      
-      - name: FTP Deploy - Config notifications
-        run: lftp -c "open -u ${{ secrets.OVH_FTP_USER }},${{ secrets.OVH_FTP_PASS }} ${{ secrets.OVH_FTP_SERVER }}; put -O /www/cias/application/config/ application/config/cias_notifications.php"
-      
-      - name: FTP Deploy - Header / Footer
-        run: lftp -c "open -u ${{ secrets.OVH_FTP_USER }},${{ secrets.OVH_FTP_PASS }} ${{ secrets.OVH_FTP_SERVER }}; put -O /www/cias/application/views/includes/ application/views/includes/header.php; put -O /www/cias/application/views/includes/ application/views/includes/footer.php"
-      
-      - name: FTP Deploy - Assets JS
-        run: lftp -c "open -u ${{ secrets.OVH_FTP_USER }},${{ secrets.OVH_FTP_PASS }} ${{ secrets.OVH_FTP_SERVER }}; put -O /www/cias/assets/ assets/cias-ameliorations.js"
-      
-      - name: FTP Deploy - Assets CSS
-        run: lftp -c "open -u ${{ secrets.OVH_FTP_USER }},${{ secrets.OVH_FTP_PASS }} ${{ secrets.OVH_FTP_SERVER }}; mkdir -p /www/cias/assets/dist/css; put -O /www/cias/assets/dist/css/ assets/dist/css/cias-ameliorations.css"
+      - name: FTP Deploy all files
+        env:
+          FTP_HOST: ${{ secrets.OVH_FTP_SERVER }}
+          FTP_USER: ${{ secrets.OVH_FTP_USER }}
+          FTP_PASS: ${{ secrets.OVH_FTP_PASS }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          lftp -c "
+            set ftp:ssl-allow no
+            set ftp:passive-mode yes
+            set net:timeout 30
+            set net:max-retries 3
+            set ssl:verify-certificate no
+            open -u $FTP_USER,$FTP_PASS $FTP_HOST
+            put -O /www/cias/application/controllers/ application/controllers/Stagiaire.php
+            put -O /www/cias/application/config/ application/config/cias_notifications.php
+            put -O /www/cias/application/views/includes/ application/views/includes/header.php
+            put -O /www/cias/application/views/includes/ application/views/includes/footer.php
+            put -O /www/cias/assets/ assets/cias-ameliorations.js
+            mkdir -p /www/cias/assets/dist/css
+            put -O /www/cias/assets/dist/css/ assets/dist/css/cias-ameliorations.css
+            quit
+          "
