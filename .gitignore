@@ -1,0 +1,29 @@
+# Secrets
+application/config/database.php
+application/config/chatgpt.php
+application/config/api_tokens.php
+application/config/config.php
+*.back
+*.bak*
+*.php_back
+
+# Environnement
+.env
+.env.local
+application/config/development/
+application/config/production/
+
+# Cache
+application/cache/*
+!application/cache/.htaccess
+!application/cache/index.html
+
+# Temp / Logs
+application/logs/*.php
+*.log
+
+# System
+.DS_Store
+Thumbs.db
+node_modules/
+vendor/

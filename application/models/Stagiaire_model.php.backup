@@ -1,0 +1,2543 @@
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+
+class Stagiaire_model extends CI_Model
+{
+
+  public function modifier_stagiairessss($nom_stagiaire,$prenom_stagiaire,$date_naissance,$numero_secu,$tel,$mail,$diplome)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET date_naissance = ?, numero_secu = ?, tel = ?, mail = ?, diplome = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($date_naissance, $numero_secu, $tel, $mail, $diplome, $nom_stagiaire, $prenom_stagiaire)
+    );
+    return $query;
+  }
+
+  public function parcours_facture()
+  {
+    $query = $this->db->query("SELECT * FROM Facture WHERE nom_stagiaire NOT LIKE 'FERTON' AND nom_stagiaire NOT LIKE 'ROLLIN' AND YEAR(date_facture) LIKE '2024' ORDER BY num_facture ASC");
+    return $query->result();
+  }
+
+  public function modifier_date_verlhac()
+  {
+    $query = $this->db->query(
+      "UPDATE Emargement SET date_signature_1 = ?, date_signature_2 = ?, date_signature_3 = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array('2024-08-29', '2024-09-04', '2024-09-06', 'CALLE', 'FLORENCE', 'F-CHA-AV')
+    );
+    return $query;
+  }
+
+  public function liste_stage_par_thematique($nom_thematique, $annee)
+  {
+    $query = $this->db->query(
+      "SELECT DISTINCT Formation.nom_formation FROM Convention, Formation WHERE Convention.id_formation = Formation.id_formation AND Formation.nom_thematique LIKE ? AND YEAR(Convention.date_debut) LIKE ?",
+      array($nom_thematique, $annee)
+    );
+    return $query->result();
+  }
+
+  public function enregistrer_mail($data=array())
+  {
+    $this->db->insert('email', $data);
+  }
+
+  public function afficher_mail()
+  {
+    $query = $this->db->query("SELECT * FROM email");
+    return $query->result();
+  }
+
+  public function supprimer_email()
+  {
+    $query = $this->db->query("DELETE FROM email WHERE id = 3");
+    return $query;
+  }
+
+  public function recherche_date_email()
+  {
+    $query = $this->db->query("SELECT * FROM email WHERE date_mail LIKE ?", array(date('Y-m-d')));
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public function liste_stage_par_formation($nom_formation, $annee)
+  {
+    $query = $this->db->query(
+      "SELECT Formation.nom_formation, Formation.nom_thematique, Convention.nom_stagiaire, Convention.prenom_stagiaire, Formation.duree_formation FROM Formation, Convention WHERE Convention.id_formation = Formation.id_formation AND Formation.nom_formation LIKE ? AND YEAR(Convention.date_debut) LIKE ? ORDER BY Formation.nom_formation ASC",
+      array($nom_formation, $annee)
+    );
+    return $query->result();
+  }
+
+  public function modifier_farjou()
+  {
+    $query = $this->db->query("UPDATE Stagiaire SET date_naissance = '1971-02-03' WHERE nom_stagiaire LIKE 'DERRUAU'");
+    return $query;
+  }
+
+  public function recherche_activites($nom_stagiaire,$prenom_stagiaire)
+  {
+    $query = $this->db->query(
+      "SELECT activite AS activite FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->activite;
+    }
+    return $data;
+  }
+
+  public function afficher_signature_stagiaire($nom_stagiaire, $prenom_stagiaire, $id_formation)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Emargement WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    return $query->result();
+  }
+
+  public function modifier_signature_faormateurs($nom_stagiaire,$prenom_stagiaire,$id_formation)
+  {
+    $query = $this->db->query(
+      "UPDATE Emargement SET signature_formateur_14 = '', signature_formateur_15 = '', signature_formateur_16 = '', signature_formateur_10 = '', signature_formateur_11 = '', signature_formateur_12 = '' WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    return $query;
+  }
+
+  public function modifier_signature_faormateur($nom_stagiaire,$prenom_stagiaire,$id_formation)
+  {
+    $query = $this->db->query(
+      "UPDATE Emargement SET signature_formateur_11 = '', signature_formateur_12 = '', signature_formateur_13 = '', signature_formateur_14 = '', signature_formateur_15 = '', signature_formateur_16 = '', signature_formateur_17 = '', signature_formateur_18 = '', signature_formateur_19 = '', signature_formateur_20 = '' WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    return $query;
+  }
+
+  public function ajouter_dessert($data=array())
+  {
+    $this->db->insert('Formation', $data);
+  }
+
+  public function Display_Formation()
+  {
+    $query = $this->db->query("SELECT * FROM Formation");
+    return $query->result();
+  }
+
+  public function modifier_amadio()
+  {
+    $query = $this->db->query("UPDATE Convention SET id_formation = 'F-LAN-SIG-FR-1' WHERE nom_stagiaire LIKE 'AMADIO'");
+    return $query;
+  }
+
+  public function modifier_amadio_facture()
+  {
+    $query = $this->db->query("UPDATE Facture SET id_formation = 'F-LAN-SIG-FR-1' WHERE nom_stagiaire LIKE 'AMADIO'");
+    return $query;
+  }
+
+  public function modifier_dias()
+  {
+    $query = $this->db->query("UPDATE Convention SET nom_formateur = 'SPILEERS', prenom_formateur = 'JEROME' WHERE id = 128");
+    return $query;
+  }
+
+  public function ajout_conventions()
+  {
+    // Empty function
+  }
+
+  public function id_qualiopi($nom_stagiaire,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT id_formation AS id_formation FROM qualiopi WHERE nom_et_prenom LIKE ? AND id_cours LIKE ?",
+      array($nom_stagiaire, $formation)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->id_formation;
+    }
+    return $data;
+  }
+
+  public function id_qualiopis($nom_stagiaire)
+  {
+    $query = $this->db->query(
+      "SELECT id_formation AS id_formation FROM qualiopi WHERE nom_et_prenom LIKE ?",
+      array($nom_stagiaire)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->id_formation;
+    }
+    return $data;
+  }
+
+  public function afficher_qualiopi_nom($nom_stagiaire)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM qualiopi WHERE nom_et_prenom LIKE ?",
+      array($nom_stagiaire)
+    );
+    return $query->result();
+  }
+
+  public function supprimer_qualiopi()
+  {
+    $query = $this->db->query("DELETE FROM qualiopi");
+    return $query;
+  }
+
+  public function afficher_qualiopi()
+  {
+    $query = $this->db->query("SELECT * FROM qualiopi");
+    return $query->result();
+  }
+
+  public function verifier_factures($nom_stagiaire,$prenom_stagiaire,$id_formation)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Facture WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    if($query->num_rows()>0)
+    {
+      return "ok";
+    }
+    else{
+      return "non ok";
+    }
+  }
+
+  public function afficher_formationss()
+  {
+    $query = $this->db->query("SELECT * FROM Formation ORDER BY nom_formation ASC");
+    return $query->result();
+  }
+
+  public function modifier_formation_stagiaire($id,$id_formation,$nom_formateur,$prenom_formateur)
+  {
+    $query = $this->db->query(
+      "UPDATE Convention SET id_formation = ?, nom_formateur = ?, prenom_formateur = ? WHERE id = ?",
+      array($id_formation, $nom_formateur, $prenom_formateur, $id)
+    );
+    return $query;
+  }
+
+  public function afficher_id()
+  {
+    $query = $this->db->query("SELECT * FROM Convention WHERE nom_stagiaire LIKE 'Vellarino'");
+    return $query->result();
+  }
+
+  public function afficher_mot_de_passes()
+  {
+    $query = $this->db->query("SELECT * FROM tbl_users");
+    return $query->result();
+  }
+
+  public function modifier_id()
+  {
+    $query = $this->db->query("UPDATE Convention SET id_formation = 'F-WP-O1-BIS' WHERE id LIKE '72'");
+    return $query;
+  }
+
+  public function modifier_ids()
+  {
+    $query = $this->db->query("UPDATE Convention SET id_formation = 'RES-SOC-02' WHERE nom_stagiaire LIKE 'ROSINE'");
+    return $query;
+  }
+
+  public function modifier_num_facture()
+  {
+    $query = $this->db->query("UPDATE Facture SET num_facture = 1356 WHERE prenom_stagiaire LIKE 'CHRISTIAN'");
+    return $query;
+  }
+
+  public function modifier_support($id)
+  {
+    $query = $this->db->query("UPDATE support SET categorie = 'AUTRES' WHERE id = ?", array($id));
+    return $query;
+  }
+
+  public function afficher_mot_de_passe()
+  {
+    $query = $this->db->query("SELECT * FROM tbl_users");
+    return $query->result();
+  }
+
+  public function modifier_mot_de_passe($data=array())
+  {
+    $this->db->insert('tbl_users',$data);
+  }
+
+  public function categorie_support()
+  {
+    $query = $this->db->query("SELECT DISTINCT(categorie) AS categorie FROM support");
+    return $query->result();
+  }
+
+  public function liste_support($categorie)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM support WHERE categorie LIKE ? ORDER BY nom_support ASC",
+      array($categorie)
+    );
+    return $query->result();
+  }
+
+  public function enregistrer_support($data=array())
+  {
+    $this->db->insert('support',$data);
+  }
+
+  public function modifier_cv_formateur($nom,$prenom,$fichier)
+  {
+    $query = $this->db->query(
+      "UPDATE Formateurs SET cv_formateur = ? WHERE nom_formateur LIKE ? AND prenom_formateur LIKE ?",
+      array($fichier, $nom, $prenom)
+    );
+    return $query;
+  }
+
+  public function modifier_prenom()
+  {
+    $query = $this->db->query("UPDATE Stagiaire SET nom_naissance = 'GENRIES' WHERE nom_stagiaire LIKE 'GENRIES-MEMMI'");
+    return $query;
+  }
+
+  public function afficher_programmes()
+  {
+    $query = $this->db->query("SELECT * FROM Convention");
+    return $query->result();
+  }
+
+  public function affiche_convention()
+  {
+    $query = $this->db->query("SELECT * FROM Convention WHERE nom_stagiaire LIKE 'HULIN'");
+    return $query->result();
+  }
+
+  public function get_stagiaires()
+  {
+    $query = $this->db->get('Stagiaire');
+    return $query->result_array();
+  }
+
+  public function fiche_client_csv()
+  {
+    $query = $this->db->query("SELECT nom_stagiaire,prenom_stagiaire,telephone, nom_entreprise,numero_siret,rue,code_postal,ville, activite, code_naf FROM Stagiaire ORDER BY nom_stagiaire ASC");
+    return $query->result_array();
+  }
+
+  public function modifier_dhau()
+  {
+    $query = $this->db->query("UPDATE Stagiaire SET date_naissance = '1959-10-07' WHERE nom_stagiaire LIKE 'D HAU'");
+    return $query;
+  }
+
+  public function modifier_dhaus()
+  {
+    $query = $this->db->query("UPDATE Convention SET nom_stagiaire = 'D HAU' WHERE nom_stagiaire LIKE 'D HAU'");
+    return $query;
+  }
+
+  public function recuperer_organisme()
+  {
+    $query = $this->db->query("SELECT * FROM Organisme");
+    return $query->result();
+  }
+
+  public function modifier_prenom_stagiaire($nom_stagiaire,$prenom_stagiaire)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET prenom_stagiaire = ? WHERE nom_stagiaire LIKE ?",
+      array($prenom_stagiaire, $nom_stagiaire)
+    );
+    return $query;
+  }
+
+  public function supprimer_landelle($nom_stagiaire)
+  {
+    $query = $this->db->query(
+      "DELETE FROM Emargement WHERE nom_stagiaire LIKE ?",
+      array($nom_stagiaire)
+    );
+    return $query;
+  }
+
+  public function verifier_date_convention($champ,$date,$nom_formateur,$prenom_formateur)
+  {
+    // Note: Cette requête utilise un nom de colonne dynamique, ce qui nécessite une approche différente
+    $champ = $this->db->escape_str($champ);
+    $query = $this->db->query(
+      "SELECT ".$champ." FROM Convention WHERE ".$champ." LIKE ? AND nom_formateur LIKE ? AND prenom_formateur LIKE ?",
+      array($date, $nom_formateur, $prenom_formateur)
+    );
+    if($query->num_rows()>0)
+    {
+      return "Vrai";
+    }
+    else{
+      return "Faux";
+    }
+  }
+
+  public function fiche_client()
+  {
+    $query = $this->db->query("SELECT * FROM Stagiaire ORDER BY nom_stagiaire ASC");
+    return $query->result();
+  }
+
+  public function fiche_clients($nom_stagiaire)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Stagiaire WHERE nom_stagiaire LIKE ? ORDER BY nom_stagiaire ASC",
+      array($nom_stagiaire)
+    );
+    return $query->result();
+  }
+
+  public function get_all_values($nom_formateur)
+  {
+    $datesColumns = ['date_convention_1', 'date_convention_2', 'date_convention_3', 'date_convention_4', 'date_convention_5','date_convention_6', 'date_convention_7', 'date_convention_8','date_convention_9','date_convention_10'];
+    $this->db->select(implode(', ', $datesColumns));
+    $this->db->from('Convention');
+    $this->db->where('nom_formateur',$nom_formateur);
+
+    $query = $this->db->get();
+    $allDates = array();
+
+    foreach ($query->result_array() as $row) {
+      foreach ($datesColumns as $column) {
+        $allDates[] = $row[$column];
+      }
+    }
+
+    return $allDates;
+  }
+
+  public function verifier_convention($nom_formateur)
+  {
+    $this->db->select('nom_formateur, date_convention_6');
+    $this->db->from('Convention');
+    $this->db->where('nom_formateur', $nom_formateur);
+    $this->db->group_by('nom_formateur, date_convention_6');
+    $this->db->having('COUNT(*) > 1');
+    
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
+  public function recherche_doublons_dates($nom_formateur)
+  {
+    $datesColumns = ['date_convention_1', 'date_convention_2', 'date_convention_3', 'date_convention_4', 'date_convention_5','date_convention_6', 'date_convention_7', 'date_convention_8','date_convention_9','date_convention_10'];
+
+    $selectColumns = ['nom_formateur', 'prenom_formateur'];
+    $selectColumns = array_merge($selectColumns, $datesColumns);
+
+    $this->db->select(implode(', ', $selectColumns));
+    $this->db->from('Convention');
+    $this->db->where('nom_formateur', $nom_formateur);
+
+    $data = $this->db->get()->result_array();
+    $doublonsIndices = [];
+
+    foreach ($datesColumns as $column) {
+      $values = array_column($data, $column);
+      $duplicates = array_keys(array_filter(array_count_values($values), function ($count) {
+        return $count > 1;
+      }));
+      $doublonsIndices = array_merge($doublonsIndices, $duplicates);
+    }
+
+    $doublonsIndices = array_unique($doublonsIndices);
+    return ['data' => $data, 'doublonsIndices' => $doublonsIndices];
+  }
+
+  public function recherche_colonne_doublons($nom_formateur)
+  {
+    $datesColumns = ['date_convention_1', 'date_convention_2', 'date_convention_3', 'date_convention_4', 'date_convention_5','date_convention_6', 'date_convention_7', 'date_convention_8','date_convention_9','date_convention_10'];
+
+    $selectColumns = ['nom_formateur', 'prenom_formateur'];
+    $selectColumns = array_merge($selectColumns, $datesColumns);
+
+    $this->db->select(implode(', ', $selectColumns));
+    $this->db->from('Convention');
+    $this->db->where('nom_formateur', $nom_formateur);
+
+    $data = $this->db->get()->result_array();
+    $doublonsIndices = [];
+
+    foreach ($datesColumns as $column) {
+      $values = array_column($data, $column);
+      $duplicates = array_keys(array_filter(array_count_values($values), function ($count) {
+        return $count > 1;
+      }));
+      $doublonsIndices = array_merge($doublonsIndices, $duplicates);
+    }
+
+    $doublonsIndices = array_unique($doublonsIndices);
+    return ['data' => $data, 'doublonsIndices' => $doublonsIndices];
+  }
+
+  public function afficher_signature_1($nom_formateur,$prenom_formateur)
+  {
+    $query = $this->db->query(
+      "SELECT signatures FROM signature_formateur WHERE nom_formateur LIKE ? AND prenom_formateur LIKE ?",
+      array($nom_formateur, $prenom_formateur)
+    );
+    return $query->result();
+  }
+
+  public function modifier_organisme($raison_social,$num_declaration,$num_siret, $nom_responsable, $prenom_responsable, $adresse, $code_postal, $ville, $tel_responsable, $mail_responsable,$id)
+  {
+    $query = $this->db->query(
+      "UPDATE Organisme SET raison_social=?, num_declaration=?, num_siret=?, nom_responsable=?,prenom_responsable = ?, adresse=?, code_postal=?, ville=?, tel_responsable=?, mail_resonsable=? WHERE id = ?",
+      array($raison_social, $num_declaration, $num_siret, $nom_responsable, $prenom_responsable, $adresse, $code_postal, $ville, $tel_responsable, $mail_responsable, $id)
+    );
+    return $query;
+  }
+
+  public function recherche_raison_social($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT raison_social AS raison_social FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->raison_social;
+    }
+    return $data;
+  }
+
+  public function recherche_declaration($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT num_declaration AS num_declaration FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->num_declaration;
+    }
+    return $data;
+  }
+
+  public function recherche_siret($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT num_siret AS num_siret FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->num_siret;
+    }
+    return $data;
+  }
+
+  public function recherche_adresse_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT adresse AS adresse FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->adresse;
+    }
+    return $data;
+  }
+
+  public function recherche_ville_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT ville AS ville FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->ville;
+    }
+    return $data;
+  }
+
+  public function recherche_code_postal_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT code_postal AS code_postal FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->code_postal;
+    }
+    return $data;
+  }
+
+  public function recherche_nom_responsable_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT nom_responsable AS nom_responsable FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->nom_responsable;
+    }
+    return $data;
+  }
+
+  public function recherche_prenom_responsable_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT prenom_responsable AS prenom_responsable FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->prenom_responsable;
+    }
+    return $data;
+  }
+
+  public function recherche_tel_responsable_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT tel_responsable AS tel_responsable FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->tel_responsable;
+    }
+    return $data;
+  }
+
+  public function recherche_mail_responsable_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT mail_resonsable AS mail_responsable FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->mail_responsable;
+    }
+    return $data;
+  }
+
+  public function recherche_madame_responsable_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT madame_responsable AS madame_responsable FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->madame_responsable;
+    }
+    return $data;
+  }
+
+  public function recherche_monsieur_responsable_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT monsieur_responsable AS monsieur_responsable FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->monsieur_responsable;
+    }
+    return $data;
+  }
+
+  public function mise_a_jours_stagiaire()
+  {
+    $query = $this->db->query("UPDATE Stagiaire SET organisme = 'MAF SAS'");
+    return $query;
+  }
+
+  public function recherche_prenom_stagiaire()
+  {
+    // Empty function
+  }
+
+  public function modifier_nom_boreil()
+  {
+    $query = $this->db->query("UPDATE Convention SET nom_stagiaire = 'BOREILL' WHERE prenom_stagiaire = 'HUGO'");
+    return $query;
+  }
+
+  public function mise_a_jours_convention()
+  {
+    $query = $this->db->query("UPDATE Convention SET organisme = 'MAF SAS'");
+    return $query;
+  }
+
+  public function mise_a_jours_facture()
+  {
+    $query = $this->db->query("UPDATE Facture SET organisme = 'MAF SAS'");
+    return $query;
+  }
+
+  public function mise_a_jours_formation()
+  {
+    $query = $this->db->query("UPDATE Formation SET organisme = 'MAF SAS'");
+    return $query;
+  }
+
+  public function mise_a_jours_formateur()
+  {
+    $query = $this->db->query("UPDATE Formateurs SET organisme = 'MAF SAS'");
+    return $query;
+  }
+
+  public function mise_a_jours_emargement()
+  {
+    $query = $this->db->query("UPDATE Emargement SET organisme = 'MAF SAS'");
+    return $query;
+  }
+
+  public function recherche_madame_contact_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT madame_contact AS madame_contact FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->madame_contact;
+    }
+    return $data;
+  }
+
+  public function recherche_monsieur_contact_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT monsieur_contact AS monsieur_contact FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->monsieur_contact;
+    }
+    return $data;
+  }
+
+  public function recherche_nom_contact_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT nom_contact AS nom_contact FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->nom_contact;
+    }
+    return $data;
+  }
+
+  public function recherche_prenom_contact_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT prenom_contact AS prenom_contact FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->prenom_contact;
+    }
+    return $data;
+  }
+
+  public function recherche_tel_contact_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT tel_contact AS tel_contact FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->tel_contact;
+    }
+    return $data;
+  }
+
+  public function recherche_mail_contact_organisme($raison_social)
+  {
+    $query = $this->db->query(
+      "SELECT mail_contact AS mail_contact FROM Organisme WHERE raison_social LIKE ?",
+      array($raison_social)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->mail_contact;
+    }
+    return $data;
+  }
+
+  public function supprimer_organisme($id)
+  {
+    $query = $this->db->query("DELETE FROM Organisme WHERE id LIKE ?", array($id));
+    return $query;
+  }
+
+  public function liste_organisme()
+  {
+    $query = $this->db->query("SELECT * FROM Organisme");
+    return $query->result();
+  }
+
+  public function recherche_oganisme($raison)
+  {
+    $query = $this->db->query(
+      "SELECT raison_social FROM Organisme WHERE raison_social LIKE ?",
+      array($raison)
+    );
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public function inserer_organisme($data=array())
+  {
+    $this->db->insert('Organisme', $data);
+  }
+
+  public function supprimer_signature($id)
+  {
+    $query = $this->db->query("DELETE FROM signature_formateur WHERE id = ?", array($id));
+    return $query;
+  }
+
+  public function ajouterSignature($nom_formateur, $prenom_formateur, $signatures) {
+    foreach ($signatures as $signature) {
+      $data = array(
+        'nom_formateur' => $nom_formateur,
+        'prenom_formateur' => $prenom_formateur,
+        'signatures' => $signature
+      );
+      $this->db->insert('signature_formateur', $data);
+    }
+  }
+
+  public function aficher_signatures()
+  {
+    $query = $this->db->query("SELECT * FROM signature_formateur");
+    return $query->result();
+  }
+
+  public function modifier_madame($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET madame='X', monsieur='' WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    return $query;
+  }
+
+  public function afficher_royer($nom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ?",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function afficher_programmess()
+  {
+    $query = $this->db->query("SELECT * FROM programmes");
+    return $query->result();
+  }
+
+  public function ajouter_support_satgiaire()
+  {
+    $query = $this->db->query("SELECT Convention.nom_stagiaire, Convention.prenom_stagiaire, Convention.id_formation, programmes.programme FROM programmes, Convention WHERE Convention.id_formation = programmes.id_formation ORDER BY Convention.date_debut DESC");
+    return $query->result();
+  }
+
+  public function ajouter_support_satgiaires($nom_stagiaire)
+  {
+    $query = $this->db->query(
+      "SELECT Convention.nom_stagiaire, Convention.prenom_stagiaire, Convention.id_formation, programmes.programme FROM programmes, Convention WHERE Convention.id_formation = programmes.id_formation AND Convention.nom_stagiaire LIKE ? ORDER BY Convention.date_debut DESC",
+      array($nom_stagiaire)
+    );
+    return $query->result();
+  }
+
+  public function ajouter_qualiopi($data=array())
+  {
+    $this->db->insert('qualiopi',$data);
+  }
+
+  public function modifier_entre_quatre_et_dix_ans($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET entre_quatre_et_dix_ans = 'X' WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    return $query;
+  }
+
+  public function modifier_kaliopi($nom,$prenom,$id,$kaliopi)
+  {
+    $query = $this->db->query(
+      "UPDATE Convention SET id_kaliopi = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($kaliopi, $nom, $prenom, $id)
+    );
+    return $query;
+  }
+
+  public function afficher_kaliopi()
+  {
+    $query = $this->db->query("SELECT * FROM Convention");
+    return $query->result();
+  }
+
+  public function modifier_nom_naissance($nom,$nom_naissance)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET nom_naissance = ? WHERE nom_stagiaire LIKE ?",
+      array($nom_naissance, $nom)
+    );
+    return $query;
+  }
+
+  public function modifier_entreprise($nom_entreprise,$nom_commercial,$code_naf,$numero_siret, $activite,$forme_juridique, $adresses,$code_postals,$villes,$nom_stagiaire,$prenom_stagiaire)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET nom_entreprise = ?, nom_commercial = ?, code_naf = ?, numero_siret = ?, activite = ?, forme_juridique = ?, rue = ?, code_postal = ?, ville = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom_entreprise, $nom_commercial, $code_naf, $numero_siret, $activite, $forme_juridique, $adresses, $code_postals, $villes, $nom_stagiaire, $prenom_stagiaire)
+    );
+    return $query;
+  }
+
+  public function modifier_entreprisess($num_accueil="",$nom_entreprise,$nom_commercial,$code_naf,$numero_siret, $activite,$forme_juridique, $adresses,$code_postals,$villes,$nom_stagiaire,$prenom_stagiaire)
+  {
+    $query = $this->db->query(
+      "UPDATE Stagiaire SET num_accueil = ?, nom_entreprise = ?, nom_commercial = ?, code_naf = ?, numero_siret = ?, activite = ?, forme_juridique = ?, rue = ?, code_postal = ?, ville = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($num_accueil, $nom_entreprise, $nom_commercial, $code_naf, $numero_siret, $activite, $forme_juridique, $adresses, $code_postals, $villes, $nom_stagiaire, $prenom_stagiaire)
+    );
+    return $query;
+  }
+
+  function creation_table_resultat_depart()
+  {
+    $q = $this->db->query("CREATE TABLE Resultat_depart (id int primary key auto_increment, nom_stagiaire varchar(100) null, prenom_stagiaire varchar(100) null, id_formation varchar(100) null, note int null) engine=innoDB");
+    return $q;
+  }
+
+  function creation_table_qcm_depart()
+  {
+    $q = $this->db->query("CREATE TABLE Questionnaire_depart (id_questionnaire int primary key auto_increment, question varchar(200) not null, id_formation varchar(100) null) engine=innoDB");
+    return $q;
+  }
+
+  public function f_plus_de_dix_ans()
+  {
+    $q = $this->db->query("UPDATE Stagiaire SET plus_de_dix_ans = 'X' WHERE nom_stagiaire LIKE 'LORY'");
+    return $q;
+  }
+
+  public function recherche_date_facture($nom,$prenom,$idf)
+  {
+    $query = $this->db->query(
+      "SELECT date_facture AS date_facture FROM Facture WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $idf)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->date_facture;
+    }
+    return $data;
+  }
+
+  public function modifier_programmes($id,$prix,$duree,$idf)
+  {
+    $query = $this->db->query(
+      "UPDATE programmes SET id_formation=?, prix=?, duree=? WHERE id LIKE ?",
+      array($idf, $prix, $duree, $id)
+    );
+    return $query;
+  }
+
+  public function creation_base_qcm()
+  {
+    $q = $this->db->query("CREATE TABLE Base_qcm (id int primary key auto_increment, fichier varchar(200) not null, id_formation varchar(100) null, nom_formation varchar(100) null) engine=innoDB");
+    return $q;
+  }
+
+  public function lire_base_qcm()
+  {
+    $query = $this->db->query("SELECT * FROM Base_qcm");
+    return $query->result();
+  }
+
+  public function enregistrer_base_qcm($data=array())
+  {
+    $this->db->insert('Base_qcm', $data);
+  }
+
+  public function enregistrer_question($data=array())
+  {
+    $this->db->insert('Questionnaire', $data);
+  }
+
+  public function maximum_depart()
+  {
+    $query = $this->db->query("SELECT MAX(id_questionnaire) AS maxi FROM Questionnaire_depart");
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->maxi;
+    }
+    return $data;
+  }
+
+  public function lire_questionnaire()
+  {
+    $query = $this->db->query("SELECT * FROM Questionnaire_depart");
+    return $query->result();
+  }
+
+  public function liste_par_mois($mois,$annee)
+  {
+    $query = $this->db->query(
+      "SELECT nom_stagiaire, prenom_stagiaire, id_formation, nom_formateur, prenom_formateur,date_debut FROM Convention WHERE MONTH(date_debut) LIKE ? AND YEAR(date_debut) LIKE ? ORDER BY date_debut DESC",
+      array($mois, $annee)
+    );
+    return $query->result();
+  }
+
+  public function liste_par_mois_entre_deux_dates($date_debut,$date_fin,$annee)
+  {
+    $query = $this->db->query(
+      "SELECT nom_stagiaire, prenom_stagiaire, id_formation, nom_formateur, prenom_formateur,date_debut FROM Convention WHERE date_debut BETWEEN ? AND ? AND YEAR(date_debut) LIKE ? ORDER BY date_debut DESC",
+      array($date_debut, $date_fin, $annee)
+    );
+    return $query->result();
+  }
+
+  public function lire_reponse()
+  {
+    $query = $this->db->query("SELECT * FROM Reponse_depart");
+    return $query->result();
+  }
+
+  public function enregistrer_question_depart($data=array())
+  {
+    $this->db->insert('Questionnaire_depart', $data);
+  }
+
+  public function enregistrer_reponse($data=array())
+  {
+    $this->db->insert('Reponse', $data);
+  }
+
+  public function enregistrer_reponse_depart($data=array())
+  {
+    $this->db->insert('Reponse_depart', $data);
+  }
+
+  function creation_table_reponse_qcm_depart()
+  {
+    $q = $this->db->query("CREATE TABLE Reponse_depart (id int auto_increment primary key, id_questionnaire int, libelle_reponse varchar(200) not null, reponse int null, index(id_questionnaire), foreign key(id_questionnaire) references Questionnaire_depart(id_questionnaire) on delete cascade on update cascade) engine=innoDB");
+    return $q;
+  }
+
+  function supprimer_table()
+  {
+    $query = $this->db->query("DROP TABLE Reponse_depart");
+    return $query;
+  }
+
+  public function supprimer_reponse_departs()
+  {
+    $query = $this->db->query("DELETE FROM Resultat_depart");
+    return $query;
+  }
+
+  public function supprimer_reponse_fins()
+  {
+    $query = $this->db->query("DELETE FROM Resultat");
+    return $query;
+  }
+
+  function creation_table_resultat()
+  {
+    $q = $this->db->query("CREATE TABLE Resultat (id int primary key auto_increment, nom_stagiaire varchar(100) null, prenom_stagiaire varchar(100) null, id_formation varchar(100) null, note int null) engine=innoDB");
+    return $q;
+  }
+
+  function creation_table_qcm()
+  {
+    $q = $this->db->query("CREATE TABLE Questionnaire (id_questionnaire int primary key auto_increment, question varchar(100) not null, id_formation varchar(100) null) engine=innoDB");
+    return $q;
+  }
+
+  function creation_table_reponse_qcm()
+  {
+    $q = $this->db->query("CREATE TABLE Reponse (id int auto_increment primary key, id_questionnaire int, libelle_reponse varchar(100) not null, reponse int null, index(id_questionnaire), foreign key(id_questionnaire) references Questionnaire(id_questionnaire) on delete cascade on update cascade) engine=innoDB");
+    return $q;
+  }
+
+  public function inserer_stagiaire($data=array())
+  {
+    $this->db->insert('Stagiaire',$data);
+  }
+
+  public function afficher_formateur()
+  {
+    $query = $this->db->query("SELECT * FROM Formateurs");
+    return $query->result();
+  }
+
+  public function modifier_formateurs()
+  {
+    $query = $this->db->query("UPDATE Formateurs SET prenom_formateur='PHILIPPE' WHERE nom_formateur LIKE 'CANO'");
+    return $query;
+  }
+
+  public function modifier_formateur_convention()
+  {
+    $query = $this->db->query("UPDATE Convention SET prenom_formateur='PHILIPPE' WHERE nom_formateur LIKE 'CANO'");
+    return $query;
+  }
+
+  public function recherche_signature_formateur($nom_formateur,$prenom_formateur)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM signature_formateur WHERE nom_formateur LIKE ? AND prenom_formateur LIKE ?",
+      array($nom_formateur, $prenom_formateur)
+    );
+    return $query->result();
+  }
+
+  public function recherche_nom_formateursss($nom_stagiaire,$prenom_stagiaire,$id_formation)
+  {
+    $query = $this->db->query(
+      "SELECT nom_formateur AS nom_formateur FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->nom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_prenom_formateursss($nom_stagiaire,$prenom_stagiaire,$id_formation)
+  {
+    $query = $this->db->query(
+      "SELECT prenom_formateur AS prenom_formateur FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->prenom_formateur;
+    }
+    return $data;
+  }
+
+  public function listes_convention()
+  {
+    $query = $this->db->query("SELECT * FROM Convention WHERE nom_formateur LIKE 'CANO' AND prenom_formateur LIKE 'PHILIPPE'");
+    return $query->result();
+  }
+
+  public function afficher_participation_formateurs($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_formateur LIKE ? AND prenom_formateur LIKE ? ORDER BY date_debut DESC",
+      array($nom, $prenom)
+    );
+    return $query->result();
+  }
+
+  public function liste_formations()
+  {
+    $query = $this->db->query("SELECT * FROM Formation");
+    return $query->result();
+  }
+
+  public function nombre_stagiaire($id,$daty)
+  {
+    $query = $this->db->query(
+      "SELECT id_formation FROM Convention WHERE id_formation LIKE ? AND YEAR(date_debut) LIKE ?",
+      array($id, $daty)
+    );
+    $s = 0;
+    foreach($query->result() as $row)
+    {
+      $s = $s+ 1;
+    }
+    return $s;
+  }
+
+  public function nombre_heure($id)
+  {
+    $query = $this->db->query(
+      "SELECT SUBSTR(duree_formation,1,2) AS duree_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $s = '';
+    foreach($query->result() as $row)
+    {
+      $s = $row->duree_formation;
+    }
+    return $s;
+  }
+
+  public function modifier_payer($nom,$prenom,$id,$paye)
+  {
+    $query = $this->db->query(
+      "UPDATE Convention SET paye=? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($paye, $nom, $prenom, $id)
+    );
+    return $query;
+  }
+
+  public function supprimer_conventions($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "DELETE FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    return $query;
+  }
+
+  public function supprimer_conventions_id($id,$organisme)
+  {
+    if($organisme)
+      $query = $this->db->query(
+        "DELETE FROM Convention WHERE id = ? AND organisme LIKE ?",
+        array($id, $organisme)
+      );
+    else
+      $query = $this->db->query(
+        "DELETE FROM Convention WHERE id = ?",
+        array($id)
+      );
+    return $query;
+  }
+
+  public function recherche_paye($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT paye AS paye FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->paye;
+    }
+    return $data;
+  }
+
+  public function peremption_dossier($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT DATE_ADD(date_fin, INTERVAL 4 MONTH) AS fin FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->fin;
+    }
+    return $data;
+  }
+
+  public function display_facture()
+  {
+    $query = $this->db->query("SELECT * FROM Facture");
+    return $query->result();
+  }
+
+  public function display_stagiaire()
+  {
+    $query = $this->db->query("SELECT * FROM Stagiaire");
+    return $query->result();
+  }
+
+  public function afficher_convention1($nom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? ORDER BY date_debut DESC",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function afficher_convention_1()
+  {
+    $query = $this->db->query("SELECT * FROM Convention ORDER BY date_debut DESC");
+    return $query->result();
+  }
+
+  public function afficher_convention1_2($nom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? ORDER BY date_debut DESC",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function afficher_formateurs($nom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Formateurs WHERE nom_formateur LIKE ?",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function doublons($nom)
+  {
+    $query = $this->db->query(
+      "SELECT COUNT(*) AS nbr_doublon, date_convention_1, date_convention_2, date_convention_3,date_convention_4, date_convention_5, date_convention_6, date_convention_7, date_convention_8, date_convention_9, date_convention_10, nom_formateur FROM Convention GROUP BY date_convention_1, date_convention_2, date_convention_3,date_convention_4, date_convention_5, date_convention_6, date_convention_7, date_convention_8, date_convention_9, date_convention_10,nom_formateur HAVING COUNT(*) > 1 AND nom_formateur LIKE ?",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function modifier_facture($num,$nom,$prenom,$id,$daty)
+  {
+    $query = $this->db->query(
+      "UPDATE Facture SET date_facture = ? WHERE num_facture LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($daty, $num, $nom, $prenom, $id)
+    );
+    return $query;
+  }
+
+  public function afficher_facture()
+  {
+    $query = $this->db->query("SELECT * FROM Facture ORDER BY num_facture DESC");
+    return $query->result();
+  }
+
+  public function afficher_factures($nom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Facture WHERE nom_stagiaire LIKE ?",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function recherche_emargement($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Emargement WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    return $query->result();
+  }
+
+  public function afficher_intervention_formateur($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_formateur LIKE ? AND prenom_formateur LIKE ? ORDER BY date_debut DESC",
+      array($nom, $prenom)
+    );
+    return $query->result();
+  }
+
+  public function afficher_stagiaire()
+  {
+    $query = $this->db->query("SELECT * FROM Stagiaire");
+    return $query->result();
+  }
+
+  public function recherche_stagiaire($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    return $query->result();
+  }
+
+  public function recherche_conventions($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ? ORDER BY date_debut DESC",
+      array($nom, $prenom, $id)
+    );
+    return $query->result();
+  }
+
+  public function recherche_conventionss($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? ORDER BY date_debut DESC",
+      array($nom, $prenom)
+    );
+    return $query->result();
+  }
+
+  public function recherche_emargements($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Emargement WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    return $query->result();
+  }
+
+  public function afficher_convention()
+  {
+    $query = $this->db->query("SELECT * FROM Convention ORDER BY date_debut DESC");
+    return $query->result();
+  }
+
+  public function afficher_convention_2()
+  {
+    $query = $this->db->query("SELECT * FROM Convention ORDER BY nom_stagiaire ASC");
+    return $query->result();
+  }
+
+  public function afficher_convention_22()
+  {
+    $query = $this->db->query("SELECT * FROM Convention ORDER BY nom_stagiaire ASC");
+    return $query->result();
+  }
+
+  public function afficher_emargement()
+  {
+    $query = $this->db->query("SELECT * FROM Emargement");
+    return $query->result();
+  }
+
+  public function afficher_emargementsss($nomstagiaire)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Emargement WHERE nom_stagiaire LIKE ?",
+      array($nomstagiaire)
+    );
+    return $query->result();
+  }
+
+  public function afficher_conventions($nom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? ORDER BY date_debut DESC",
+      array('%'.$nom.'%')
+    );
+    return $query->result();
+  }
+
+  public function afficher_conventions_organisme($organisme)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE organisme LIKE ? ORDER BY date_debut DESC",
+      array($organisme)
+    );
+    return $query->result();
+  }
+
+  public function afficher_stagiairesss()
+  {
+    $query = $this->db->query("SELECT Stagiaire.*, acc.num_accueil, acc.nom_accueil, acc.interlocuteur, acc.adresse AS pt_adresse, acc.code_postal AS pt_code_postal, acc.ville AS pt_ville, acc.tel AS pt_tel, acc.mail AS pt_mail FROM Stagiaire INNER JOIN Accueil acc ON Stagiaire.num_accueil = acc.num_accueil");
+    return $query->result();
+  }
+
+  public function calcul_formation($idf,$annee)
+  {
+    $s = 0;
+    $query = $this->db->query(
+      "SELECT prix_formation FROM Formation, Convention WHERE Formation.id_formation = Convention.id_formation AND Convention.id_formation LIKE ? AND YEAR(Convention.date_debut) LIKE ?",
+      array($idf, $annee)
+    );
+    foreach ($query->result() as $row) {
+      $s += $row->prix_formation;
+    }
+    return $s;
+  }
+
+  public function afficher_formations()
+  {
+    $query = $this->db->query("SELECT * FROM Formation ORDER BY nom_formation ASC");
+    return $query->result();
+  }
+
+  public function afficher_stagiairess($nom)
+  {
+    $query = $this->db->query(
+      "SELECT Stagiaire.*, acc.num_accueil, acc.nom_accueil, acc.interlocuteur, acc.adresse AS pt_adresse, acc.code_postal AS pt_code_postal, acc.ville AS pt_ville, acc.tel AS pt_tel, acc.mail AS pt_mail FROM Stagiaire INNER JOIN Accueil acc ON Stagiaire.num_accueil = acc.num_accueil WHERE nom_stagiaire LIKE ?",
+      array($nom)
+    );
+    return $query->result();
+  }
+
+  public function recherche_entreprise($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT nom_entreprise FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_entreprise;
+    }
+    return $data;
+  }
+
+  public function recherche_stagiairesss($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT nom_entreprise FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    if ($query->num_rows() > 0) {
+      return true ;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public function recherche_stagiaire_convention($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ? ORDER BY date_debut DESC",
+      array($nom, $prenom, $id)
+    );
+    if ($query->num_rows() > 0) {
+      return true ;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public function recherche_stagiaire_factures($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire IN (SELECT nom_stagiaire FROM Facture WHERE nom_stagiaire LIKE ?) AND prenom_stagiaire IN (SELECT prenom_stagiaire FROM Facture WHERE prenom_stagiaire LIKE ?)",
+      array($nom, $prenom)
+    );
+    if ($query->num_rows() > 0) {
+      return "OK" ;
+    }
+    else{
+      return "Non OK";
+    }
+  }
+
+  public function recherche_stagiaire_emargement($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire IN (SELECT nom_stagiaire FROM Emargement WHERE nom_stagiaire LIKE ?) AND prenom_stagiaire IN (SELECT prenom_stagiaire FROM Emargement WHERE prenom_stagiaire LIKE ?)",
+      array($nom, $prenom)
+    );
+    if ($query->num_rows() > 0) {
+      return "OK" ;
+    }
+    else{
+      return "Non OK";
+    }
+  }
+
+  public function recherche_stagiaire_assiduite($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    if ($query->num_rows() > 0) {
+      return "OK" ;
+    }
+    else{
+      return "Non OK";
+    }
+  }
+
+  public function convention_existe($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    if($query->num_rows()>0) {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public function recherche_emargementsss($nom_stagiaire,$prenom_stagiaire,$id_formation)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Emargement WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public function modifier_emargementsss($nom_stagiaire,$prenom_stagiaire,$id_formation,$ds1,$ds2,$ds3)
+  {
+    $query = $this->db->query(
+      "UPDATE Emargement SET date_signature_1=?, date_signature_2=?, date_signature_3=? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($ds1, $ds2, $ds3, $nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    return $query;
+  }
+
+  public function display_emargements()
+  {
+    $query = $this->db->query("SELECT * FROM Emargement");
+    return $query->result();
+  }
+
+  public function inserer_emargement($data=array())
+  {
+    $this->db->insert('Emargement', $data);
+  }
+
+  public function NumeroFacture()
+  {
+    $query = $this->db->query("SELECT MAX(num_facture) AS num_facture FROM Facture");
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->num_facture;
+    }
+    return $data;
+  }
+
+  public function recherche_rue($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT rue FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->rue;
+    }
+    return $data;
+  }
+
+  public function recherche_code_postals($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT code_postal FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->code_postal;
+    }
+    return $data;
+  }
+
+  public function recherche_signature($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT signature FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->signature;
+    }
+    return $data;
+  }
+
+  public function recherche_formateur($nom)
+  {
+    $query = $this->db->query(
+      "SELECT nom_formateur FROM Formation WHERE id_formation LIKE ?",
+      array($nom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_formateurss($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT nom_formateur FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_prenom_formateurss($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT prenom_formateur FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->prenom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_1($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_1 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_1;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_2($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_2 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_2;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_3($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_3 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_3;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_4($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_4 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_4;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_5($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_5 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_5;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_6($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_6 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_6;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_7($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_7 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_7;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_8($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_8 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_8;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_9($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_9 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_9;
+    }
+    return $data;
+  }
+
+  public function recherche_date_convention_10($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_convention_10 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->date_convention_10;
+    }
+    return $data;
+  }
+
+  public function recherche_heure_debut_111($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT heure_debut_111 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->heure_debut_111;
+    }
+    return $data;
+  }
+
+  public function recherche_heure_fin_111($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT heure_fin_111 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->heure_fin_111;
+    }
+    return $data;
+  }
+
+  public function recherche_heure_debut_1($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT heure_debut_1 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->heure_debut_1;
+    }
+    return $data;
+  }
+
+  public function recherche_heure_fin_1($nom,$prenom,$formation)
+  {
+    $query = $this->db->query(
+      "SELECT heure_fin_1 FROM Convention WHERE id_formation LIKE ? AND nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($formation, $nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->heure_fin_1;
+    }
+    return $data;
+  }
+
+  public function recherche_nom_formations($id)
+  {
+    $query = $this->db->query(
+      "SELECT nom_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_prenom_formateurs($nom)
+  {
+    $query = $this->db->query(
+      "SELECT prenom_formateur FROM Formateurs WHERE nom_formateur LIKE ?",
+      array($nom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->prenom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_duree_formations($id)
+  {
+    $query = $this->db->query(
+      "SELECT duree_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->duree_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_prix_formations($id)
+  {
+    $query = $this->db->query(
+      "SELECT prix_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->prix_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_villes($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT ville FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->ville;
+    }
+    return $data;
+  }
+
+  public function recherche_accueil($num)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Accueil WHERE num_accueil LIKE ?",
+      array($num)
+    );
+    return $query->result();
+  }
+
+  public function supprimer_stagiaire()
+  {
+    $q = $this->db->query("DELETE FROM Stagiaire");
+    return $q;
+  }
+
+  public function modifier_signature_stagiaire($nom,$prenom,$sign)
+  {
+    $q = $this->db->query(
+      "UPDATE Stagiaire SET signature = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($sign, $nom, $prenom)
+    );
+    return $q;
+  }
+
+  public function modifier_conventions($nom_stagiaire,$prenom_stagiaire,$id_formation,$lieu_formation,$nom_formateur,$prenom_formateur,$date_debut,$date_fin,$date_sign,$date_convention_1,$date_convention_2,$date_convention_3,$date_convention_4,$date_convention_5,$date_convention_6,$date_convention_7,$date_convention_8,$date_convention_9,$date_convention_10,$organisme)
+  {
+    $q = $this->db->query(
+      "UPDATE Convention SET nom_stagiaire=?, prenom_stagiaire=?, nom_formateur = ?, prenom_formateur = ?, id_formation= ? , lieu_formation = ?, date_debut = ?, date_fin = ?, date_signature = ?, date_convention_1 = ?, date_convention_2 = ?, date_convention_3= ?, date_convention_4 = ?, date_convention_5 = ?, date_convention_6= ? , date_convention_7 = ?, date_convention_8 = ?, date_convention_9 = ?, date_convention_10 = ?, organisme = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $nom_formateur, $prenom_formateur, $id_formation, $lieu_formation, $date_debut, $date_fin, $date_sign, $date_convention_1, $date_convention_2, $date_convention_3, $date_convention_4, $date_convention_5, $date_convention_6, $date_convention_7, $date_convention_8, $date_convention_9, $date_convention_10, $organisme, $nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    return $q;
+  }
+
+  public function modifier_conventions_heure($id,$nom_stagiaire,$prenom_stagiaire,$id_formation,$lieu_formation,$nom_formateur,$prenom_formateur,$date_debut,$date_fin,$date_convention_1,$date_convention_2,$date_convention_3,$date_convention_4,$date_convention_5,$date_convention_6,$date_convention_7,$date_convention_8,$date_convention_9,$date_convention_10,$organisme,$hd1,$hd2,$hd3,$hd4,$hd5,$hd6,$hd7,$hd8,$hd9,$hd10,$hd111,$hd222,$hd333,$hd444,$hd555,$hd666,$hd777,$hd888,$hd999,$hd1010,$hf1,$hf2,$hf3,$hf4,$hf5,$hf6,$hf7,$hf8,$hf9,$hf10,$hf111,$hf222,$hf333,$hf444,$hf555,$hf666,$hf777,$hf888,$hf999,$hf1010)
+  {
+    $q = $this->db->query(
+      "UPDATE Convention SET nom_stagiaire=?, prenom_stagiaire=?, nom_formateur = ?, prenom_formateur = ?, id_formation= ? , lieu_formation = ?, date_debut = ?, date_fin = ?, date_convention_1 = ?, date_convention_2 = ?, date_convention_3= ?, date_convention_4 = ?, date_convention_5 = ?, date_convention_6= ? , date_convention_7 = ?, date_convention_8 = ?, date_convention_9 = ?, date_convention_10 = ?, organisme = ?, heure_debut_1= ? ,heure_debut_2= ?, heure_debut_3= ?, heure_debut_4= ?, heure_debut_5= ?, heure_debut_6= ?, heure_debut_7= ?, heure_debut_8= ?, heure_debut_9= ?, heure_debut_10= ?, heure_debut_111= ?, heure_debut_222= ?, heure_debut_333= ?, heure_debut_444= ?, heure_debut_555= ?, heure_debut_666= ?, heure_debut_777= ?, heure_debut_888= ?, heure_debut_999= ? , heure_debut_1010= ?, heure_fin_1= ?, heure_fin_2= ?, heure_fin_3= ?, heure_fin_4= ?, heure_fin_5= ?, heure_fin_6= ?, heure_fin_7= ?, heure_fin_8= ?, heure_fin_9= ?, heure_fin_10= ?, heure_fin_111= ?, heure_fin_222= ?, heure_fin_333= ?, heure_fin_444= ?, heure_fin_555= ?, heure_fin_666= ?, heure_fin_777= ?, heure_fin_888= ?, heure_fin_999= ?, heure_fin_1010= ? WHERE id LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $nom_formateur, $prenom_formateur, $id_formation, $lieu_formation, $date_debut, $date_fin, $date_convention_1, $date_convention_2, $date_convention_3, $date_convention_4, $date_convention_5, $date_convention_6, $date_convention_7, $date_convention_8, $date_convention_9, $date_convention_10, $organisme, $hd1, $hd2, $hd3, $hd4, $hd5, $hd6, $hd7, $hd8, $hd9, $hd10, $hd111, $hd222, $hd333, $hd444, $hd555, $hd666, $hd777, $hd888, $hd999, $hd1010, $hf1, $hf2, $hf3, $hf4, $hf5, $hf6, $hf7, $hf8, $hf9, $hf10, $hf111, $hf222, $hf333, $hf444, $hf555, $hf666, $hf777, $hf888, $hf999, $hf1010, $id)
+    );
+    return $q;
+  }
+
+  public function modifier_stagiairess($nom_stagiaire,$prenom_stagiaire,$nom_entreprise,$nom_commercial,$activite,$code_naf,$date_naissance,$numero_secu,$diplome,$mail,$numero_siret,$forme_juridique,$rue,$code_postal,$ville,$telephone,$numaccueil)
+  {
+    $activite = $this->db->escape_str($activite);
+    $q = $this->db->query(
+      "UPDATE Stagiaire SET prenom_stagiaire=?, nom_entreprise = ?, nom_commercial = ?, activite= ? , code_naf = ?, date_naissance = ?, numero_secu = ?, diplome = ?, mail= ?, numero_siret = ?, forme_juridique = ?, rue= ? , code_postal = ?, ville = ?, telephone = ?, num_accueil = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($prenom_stagiaire, $nom_entreprise, $nom_commercial, $activite, $code_naf, $date_naissance, $numero_secu, $diplome, $mail, $numero_siret, $forme_juridique, $rue, $code_postal, $ville, $telephone, $numaccueil, $nom_stagiaire, $prenom_stagiaire)
+    );
+    return $q;
+  }
+
+  public function supprimer_stagiairess($nom,$prenom)
+  {
+    $q = $this->db->query(
+      "DELETE FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    return $q;
+  }
+
+  public function supprimer_factures($num)
+  {
+    $q = $this->db->query(
+      "DELETE FROM Facture WHERE num_facture LIKE ?",
+      array($num)
+    );
+    return $q;
+  }
+
+  public function Recherche_stagiaires($nomstagiaire) {
+    $query = $this->db->query(
+      "SELECT prenom_stagiaire,rue,code_postal,ville,nom_entreprise FROM Stagiaire WHERE nom_stagiaire LIKE ?",
+      array($nomstagiaire)
+    );
+    if($query->num_rows() > 0) {
+      return json_encode($query->result()) ;
+    }
+    return false;
+  }
+
+  public function Recherche_stagiairess($nomstagiaire) {
+    $query = $this->db->query(
+      "SELECT Convention.prenom_stagiaire,Convention.nom_formateur, Convention.prenom_formateur,Convention.id_formation, Stagiaire.rue, Stagiaire.code_postal, Stagiaire.ville FROM Convention, Stagiaire WHERE Convention.nom_stagiaire = Stagiaire.nom_stagiaire AND Convention.nom_stagiaire LIKE ?",
+      array($nomstagiaire)
+    );
+    if($query->num_rows() > 0) {
+      return json_encode($query->result()) ;
+    }
+    return false;
+  }
+
+  public function Recherche_formation_convention($nomstagiaire) {
+    $query = $this->db->query(
+      "SELECT Convention.*,Stagiaire.rue, Stagiaire.code_postal,Stagiaire.ville FROM Convention, Stagiaire WHERE Stagiaire.nom_stagiaire = Convention.nom_stagiaire AND Convention.nom_stagiaire LIKE ?",
+      array($nomstagiaire)
+    );
+    if($query->num_rows() > 0) {
+      return json_encode($query->result()) ;
+    }
+    return false;
+  }
+
+  public function Recherche_formation_conventions($nomstagiaire,$id) {
+    $query = $this->db->query(
+      "SELECT Convention.*,Stagiaire.rue, Stagiaire.code_postal,Stagiaire.ville FROM Convention, Stagiaire WHERE Stagiaire.nom_stagiaire = Convention.nom_stagiaire AND Convention.nom_stagiaire LIKE ? AND Convention.id_formation LIKE ?",
+      array($nomstagiaire, $id)
+    );
+    if($query->num_rows() > 0) {
+      return json_encode($query->result()) ;
+    }
+    return false;
+  }
+
+  public function Recherche_formation_conventionss($nomstagiaire,$id) {
+    $query = $this->db->query(
+      "SELECT Convention.*,Stagiaire.rue, Stagiaire.code_postal,Stagiaire.ville FROM Convention, Stagiaire WHERE Stagiaire.nom_stagiaire = Convention.nom_stagiaire AND Convention.nom_stagiaire LIKE ? AND Convention.id_formation LIKE ?",
+      array($nomstagiaire, $id)
+    );
+    if($query->num_rows() > 0) {
+      return json_encode($query->result()) ;
+    }
+    return false;
+  }
+
+  public function modifier_signature($nomstagiaire,$prenomstagiaire,$signature1,$signature2,$signature3,$signature4,$signature5,$signature6,$signature7,$signature8,$signature9,$signature10,$signature11,$signature12,$signature13,$signature14,$signature15,$signature16,$signature17,$signature18,$signature19,$signature20,$signatureformateur1,$signatureformateur2,$signatureformateur3,$signatureformateur4,$signatureformateur5,$signatureformateur6,$signatureformateur7,$signatureformateur8,$signatureformateur9,$signatureformateur10, $signatureformateur11,$signatureformateur12,$signatureformateur13,$signatureformateur14,$signatureformateur15,$signatureformateur16,$signatureformateur17,$signatureformateur18,$signatureformateur19,$signatureformateur20)
+  {
+    $query = $this->db->query(
+      "UPDATE Emargement SET signature_1 = ?, signature_2 = ?, signature_3 = ?, signature_4 = ?, signature_5 = ?, signature_6 = ?, signature_7 = ?, signature_8 = ?, signature_9 = ?, signature_10 = ?, signature_11 = ?, signature_12 = ?, signature_13 = ?, signature_14 = ?, signature_15 = ?, signature_16 = ?, signature_17 = ?, signature_18 = ?, signature_19 = ?, signature_20 = ?, signature_formateur_1 = ?, signature_formateur_2 = ?, signature_formateur_3 = ?, signature_formateur_4 = ?, signature_formateur_5 = ?, signature_formateur_6 = ?, signature_formateur_7 = ?, signature_formateur_8 = ?, signature_formateur_9 = ?, signature_formateur_10 = ?, signature_formateur_11 = ?, signature_formateur_12 = ?, signature_formateur_13 = ?, signature_formateur_14 = ?, signature_formateur_15 = ?, signature_formateur_16 = ?, signature_formateur_17 = ?, signature_formateur_18 = ?, signature_formateur_19 = ?, signature_formateur_20 = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($signature1, $signature2, $signature3, $signature4, $signature5, $signature6, $signature7, $signature8, $signature9, $signature10, $signature11, $signature12, $signature13, $signature14, $signature15, $signature16, $signature17, $signature18, $signature19, $signature20, $signatureformateur1, $signatureformateur2, $signatureformateur3, $signatureformateur4, $signatureformateur5, $signatureformateur6, $signatureformateur7, $signatureformateur8, $signatureformateur9, $signatureformateur10, $signatureformateur11, $signatureformateur12, $signatureformateur13, $signatureformateur14, $signatureformateur15, $signatureformateur16, $signatureformateur17, $signatureformateur18, $signatureformateur19, $signatureformateur20, $nomstagiaire, $prenomstagiaire)
+    );
+    return $query;
+  }
+
+  function search_stagiaire($title){
+    $this->db->like('nom_stagiaire', $title , 'both');
+    $this->db->order_by('nom_stagiaire', 'ASC');
+    $this->db->limit(20);
+    return $this->db->get('Stagiaire')->result();
+  }
+
+  function search_formateur($title){
+    $this->db->like('nom_formateur', $title , 'both');
+    $this->db->order_by('nom_formateur', 'ASC');
+    $this->db->limit(20);
+    return $this->db->get('Formateurs')->result();
+  }
+
+  public function inserer_facture($data=array())
+  {
+    $this->db->insert('Facture', $data);
+  }
+
+  public function modifier_heure_debut()
+  {
+    $query = $this->db->query("UPDATE Convention SET heure_debut_1 = '08:00', heure_debut_2 = '08:00', heure_debut_3 = '08:00', heure_debut_4 = '08:00', heure_debut_5 = '08:00', heure_debut_6 = '08:00', heure_debut_7 = '08:00', heure_debut_8 = '08:00' WHERE nom_stagiaire LIKE 'CAVASIN' AND prenom_stagiaire LIKE 'Florence' AND id_formation LIKE 'F-VEN-LIV-FAC'");
+    return $query;
+  }
+
+  public function inserer_convention($data=array())
+  {
+    $this->db->insert('Convention', $data);
+  }
+
+  public function display_convention()
+  {
+    $query = $this->db->query("SELECT * FROM Convention");
+    return $query->result();
+  }
+
+  public function supprimer_convetion()
+  {
+    $q = $this->db->query("DELETE FROM Convention");
+    return $q;
+  }
+
+  public function supprimer_emargements($id)
+  {
+    $q = $this->db->query("DELETE FROM Emargement WHERE id LIKE ?", array($id));
+    return $q;
+  }
+
+  public function supprimer_conventionss($nom,$prenom,$id)
+  {
+    $q = $this->db->query(
+      "DELETE FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    return $q;
+  }
+
+  public function supprimer_facture()
+  {
+    $q = $this->db->query("DELETE FROM Facture");
+    return $q;
+  }
+
+  public function verifier_date_signature($nom_stagiaire, $prenom_stagiaire, $id_formation)
+  {
+    $query = $this->db->query(
+      "SELECT date_signature_1 FROM Emargement WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom_stagiaire, $prenom_stagiaire, $id_formation)
+    );
+    foreach($query->result() as $row)
+    {
+      if(empty($row->date_signature_1))
+      {
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+  }
+
+  public function modifier_emargementss($nom,$prenom,$id,$date1,$date2,$date3)
+  {
+    $q = $this->db->query(
+      "UPDATE Emargement SET date_signature_1 = ?, date_signature_2 = ?, date_signature_3 = ? WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($date1, $date2, $date3, $nom, $prenom, $id)
+    );
+    return $q;
+  }
+
+  public function recherche_facture($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Facture WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    return $query->result();
+  }
+
+  public function recherche_convention($nom,$prenom,$id)
+  {
+    $query = $this->db->query(
+      "SELECT * FROM Convention WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ? AND id_formation LIKE ?",
+      array($nom, $prenom, $id)
+    );
+    return $query->result();
+  }
+
+  public function recherche_convention_by_id($id)
+  {
+    $query = $this->db->query("SELECT * FROM Convention WHERE id = ?", array($id));
+    return $query->result();
+  }
+
+  public function recherche_nom_formation($id)
+  {
+    $query = $this->db->query(
+      "SELECT nom_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_nombre_heure($id)
+  {
+    $query = $this->db->query(
+      "SELECT duree_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->duree_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_nom_entreprise($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT nom_entreprise FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_entreprise;
+    }
+    return $data;
+  }
+
+  public function convention_evaluation()
+  {
+    $query = $this->db->query("SELECT Convention.id_formation, evaluation_hot.nom_stagiaire, evaluation_hot.prenom_stagiaire FROM Convention, evaluation_hot WHERE Convention.nom_stagiaire = evaluation_hot.nom_stagiaire AND Convention.prenom_stagiaire = evaluation_hot.prenom_stagiaire");
+    return $query->result();
+  }
+
+  public function nombre_formations($annee)
+  {
+    $query = $this->db->query(
+      "SELECT COUNT(*) AS nombre FROM Convention, evaluation_hot WHERE Convention.nom_stagiaire = evaluation_hot.nom_stagiaire AND Convention.prenom_stagiaire = evaluation_hot.prenom_stagiaire AND YEAR(Convention.date_debut) LIKE ?",
+      array($annee)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->nombre;
+    }
+    return $data;
+  }
+
+  public function supprimer_evaluation_hot()
+  {
+    $query = $this->db->query("DELETE FROM evaluation_hot");
+    return $query;
+  }
+
+  public function afficher_evaluation_hot($annee)
+  {
+    $query = $this->db->query(
+      "SELECT evaluation_hot.* FROM evaluation_hot,Convention WHERE Convention.nom_stagiaire = evaluation_hot.nom_stagiaire AND Convention.prenom_stagiaire = evaluation_hot.prenom_stagiaire AND YEAR(Convention.date_debut) LIKE ?",
+      array($annee)
+    );
+    $sat = 0;
+    $total = 0;
+
+    foreach($query->result() as $row)
+    {
+      $sat = $row->sati_1 + $row->sati_2 + $row->sati_3 + $row->sati_4 + $row->eval_1 + $row->eval_2 + $row->eval_3 + $row->eval_4 + $row->eval_5 + $row->eval_6 + $row->eval_7 + $row->eval_8;
+      $tot = ($sat * 100)/48;
+      $total += $tot;
+    }
+
+    return round($total/$this->nombre_formations($annee),2);
+  }
+
+  public function afficher_thematique($annee)
+  {
+    $query = $this->db->query(
+      "SELECT nom_thematique FROM Formation,Convention WHERE Convention.id_formation = Formation.id_formation AND YEAR(Convention.date_debut) LIKE ? GROUP BY Formation.nom_thematique",
+      array($annee)
+    );
+    return $query->result();
+  }
+
+  public function nombre_heure_par_theme($id_formation,$annee)
+  {
+    $tot = 0;
+    $query = $this->db->query(
+      "SELECT SUBSTR(Formation.duree_formation,1,2) AS duree FROM Formation,Convention WHERE Convention.id_formation = Formation.id_formation AND YEAR(Convention.date_debut) LIKE ? AND Formation.nom_thematique LIKE ? AND Convention.nom_stagiaire IS NOT NULL",
+      array($annee, $id_formation)
+    );
+    foreach($query->result() as $row)
+    {
+      $tot = $tot + $row->duree;
+    }
+    return $tot;
+  }
+
+  public function supprimer_themes()
+  {
+    $query = $this->db->query("DELETE FROM Formation WHERE nom_thematique LIKE 'BIOLOGIE'");
+    return $query;
+  }
+
+  public function formateur_actif($annee)
+  {
+    $query = $this->db->query(
+      "SELECT COUNT(DISTINCT(nom_formateur)) AS nombre FROM Convention WHERE YEAR(date_debut) LIKE ?",
+      array($annee)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->nombre;
+    }
+    return $data;
+  }
+
+  public function nombre_stagiaires($annee)
+  {
+    $query = $this->db->query(
+      "SELECT COUNT(*) AS compte FROM Stagiaire WHERE nom_stagiaire IN (SELECT nom_stagiaire FROM Convention WHERE YEAR(date_debut) LIKE ?)",
+      array($annee)
+    );
+    $data = '';
+    foreach($query->result() as $row)
+    {
+      $data = $row->compte;
+    }
+    return $data;
+  }
+
+  public function recherche_nom_thematique($id)
+  {
+    $query = $this->db->query(
+      "SELECT nom_thematique FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_thematique;
+    }
+    return $data;
+  }
+
+  public function recherche_id_thematique($id)
+  {
+    $query = $this->db->query(
+      "SELECT id_formation FROM Formation WHERE nom_thematique LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->id_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_duree_formation($id)
+  {
+    $query = $this->db->query(
+      "SELECT duree_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->duree_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_prix_formation($id)
+  {
+    $query = $this->db->query(
+      "SELECT prix_formation FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->prix_formation;
+    }
+    return $data;
+  }
+
+  public function recherche_nom_formateur($id)
+  {
+    $query = $this->db->query(
+      "SELECT nom_formateur FROM Formation WHERE id_formation LIKE ?",
+      array($id)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->nom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_prenom_formateur($nom)
+  {
+    $query = $this->db->query(
+      "SELECT prenom_formateur FROM Formateurs WHERE nom_formateur LIKE ?",
+      array($nom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->prenom_formateur;
+    }
+    return $data;
+  }
+
+  public function recherche_lieu_formation($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT rue FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->rue;
+    }
+    return $data;
+  }
+
+  public function recherche_code_postal($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT code_postal FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->code_postal;
+    }
+    return $data;
+  }
+
+  public function recherche_ville($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT ville FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->ville;
+    }
+    return $data;
+  }
+
+  public function recherche_telephone($nom,$prenom)
+  {
+    $query = $this->db->query(
+      "SELECT telephone FROM Stagiaire WHERE nom_stagiaire LIKE ? AND prenom_stagiaire LIKE ?",
+      array($nom, $prenom)
+    );
+    $data = '';
+    foreach ($query->result() as $row) {
+      $data = $row->telephone;
+    }
+    return $data;
+  }
+
+  public function modifier_accueil($id,$nom_accueil,$interlocuteur,$adresse,$code_postal,$ville,$tel,$mail)
+  {
+    if($id)
+    {
+      if(!$nom_accueil)
+        $nom_accueil = '';
+      if(!$interlocuteur)
+        $interlocuteur = '';
+      if(!$adresse)
+        $adresse = '';
+      if(!$code_postal)
+        $code_postal = '';
+      if(!$ville)
+        $ville = '';
+      if(!$tel)
+        $tel = '';
+      if(!$mail)
+        $mail = '';
+      
+      $q = $this->db->query(
+        "UPDATE Accueil SET nom_accueil = ?, interlocuteur = ?, adresse = ?, code_postal = ?, ville = ?, tel = ?, mail = ? WHERE num_accueil = ?",
+        array($nom_accueil, $interlocuteur, $adresse, $code_postal, $ville, $tel, $mail, $id)
+      );
+      return $q;
+    }
+  }
+
+  // Fonction utilitaire pour échapper les données d'entrée
+  private function escape_data($data)
+  {
+    if (is_array($data)) {
+      foreach ($data as $key => $value) {
+        $data[$key] = $this->db->escape_str($value);
+      }
+      return $data;
+    } else {
+      return $this->db->escape_str($data);
+    }
+  }
+}
+
+?>

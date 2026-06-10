@@ -1,0 +1,11 @@
+$(function(){
+		$('#numero_facture').change(function(){
+			var numero_fa = $('#numero_facture').val();
+			$('.numero_facture').text(numero_fa);
+		});
+
+		$('#date_facture').change(function(){
+			var date_fa = $('#date_facture').val();
+			$('.date_facture').text($.date(date_fa));
+		});
+	});
