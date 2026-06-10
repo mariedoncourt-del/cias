@@ -75,6 +75,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/signature.js"></script>
 <!-- export PDF -->
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/export_pdf.js"></script>
+<!-- Améliorations CIAS : duplication dossier, autocomplete entreprise/accueil,
+     recherche dans listes, stepper, autosave, envoi email (juin 2026) -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/cias-ameliorations.js"></script>
   
     
     <script src="<?php echo base_url(); ?>assets/dist/js/adminlte.min.js" type="text/javascript"></script>

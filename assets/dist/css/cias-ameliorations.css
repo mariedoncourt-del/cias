@@ -1,0 +1,152 @@
+/* ====================================================================
+   CIAS - Améliorations UX (juin 2026)
+   Stepper de progression, boutons documents, autocomplete, toasts
+   ==================================================================== */
+
+/* ---- 5. Barre de progression (Étape X / 5) ---- */
+#cias-stepper {
+  background: #fff;
+  border-bottom: 3px solid #2c5aa0;
+  padding: 10px 18px 12px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+
+.cias-stepper-title {
+  font-weight: bold;
+  color: #2c5aa0;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.cias-stepper-track {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cias-step {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none !important;
+  color: #888;
+}
+
+.cias-step .cias-step-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #777;
+  font-weight: bold;
+  font-size: 13px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.cias-step .cias-step-label {
+  font-size: 12.5px;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.cias-step.active .cias-step-dot {
+  background: #2c5aa0;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(44, 90, 160, .2);
+}
+
+.cias-step.active .cias-step-label {
+  color: #2c5aa0;
+  font-weight: bold;
+}
+
+.cias-step.done .cias-step-dot {
+  background: #27ae60;
+  color: #fff;
+}
+
+.cias-step.done .cias-step-label {
+  color: #27ae60;
+}
+
+.cias-step:hover .cias-step-label {
+  text-decoration: underline;
+}
+
+.cias-step-line {
+  flex: 1 1 18px;
+  min-width: 18px;
+  height: 3px;
+  background: #e0e0e0;
+  margin: 0 8px;
+  border-radius: 2px;
+}
+
+.cias-step-line.done {
+  background: #27ae60;
+}
+
+/* ---- 4. Boutons documents (écran 5) ---- */
+.cias-btn-doc {
+  font-weight: bold !important;
+  letter-spacing: .2px;
+  margin: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .15);
+}
+
+.cias-btn-email,
+.cias-btn-dupliquer {
+  margin: 2px;
+  font-weight: bold !important;
+}
+
+.cias-btn-email:hover {
+  background: #117a8b !important;
+}
+
+.cias-btn-dupliquer:hover {
+  background: #5a6268 !important;
+}
+
+/* ---- 3. Recherche dans les listes déroulantes ---- */
+.cias-select-search-wrap {
+  display: block;
+}
+
+.cias-select-search {
+  border: 1px dashed #2c5aa0 !important;
+  background: #f6f9ff !important;
+}
+
+.cias-select-search:focus {
+  border-style: solid !important;
+  box-shadow: 0 0 0 2px rgba(44, 90, 160, .15) !important;
+}
+
+/* ---- 2. Autocomplete (jQuery UI) : lisibilité ---- */
+.ui-autocomplete {
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 100000 !important;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+}
+
+.ui-autocomplete .ui-menu-item:hover,
+.ui-autocomplete .ui-state-active {
+  background: #eaf1fb !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+/* ---- Toasts ---- */
+.cias-toast {
+  max-width: 90vw;
+  text-align: center;
+}
