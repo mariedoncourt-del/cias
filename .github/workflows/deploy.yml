@@ -8,8 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: FTP Deploy all files
+      - name: FTP Deploy via FTPS
         env:
           FTP_HOST: ${{ secrets.OVH_FTP_SERVER }}
           FTP_USER: ${{ secrets.OVH_FTP_USER }}
@@ -17,11 +16,11 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           lftp -c "
-            set ftp:ssl-allow no
-            set ftp:passive-mode yes
+            set ftp:ssl-force true
+            set ftp:ssl-protect-data true
+            set ssl:verify-certificate no
             set net:timeout 30
             set net:max-retries 3
-            set ssl:verify-certificate no
             open -u $FTP_USER,$FTP_PASS $FTP_HOST
             put -O /www/cias/application/controllers/ application/controllers/Stagiaire.php
             put -O /www/cias/application/config/ application/config/cias_notifications.php
