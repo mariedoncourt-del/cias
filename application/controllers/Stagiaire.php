@@ -4692,6 +4692,17 @@ function imprimer_facture_sans_acquitte()
         //$this->fpdf->Ln(4);
         // $data = $this->stagiaire_model->recherche_emargements("AUTHIE","Virginie","F-FB-ADS-01");
        $data = $this->stagiaire_model->recherche_facture($nomstagiaire,$prenomstagiaire,$idformation);
+       
+       // Auto-générer num_facture et date_facture si absents
+       foreach ($data as &$row) {
+           if (empty($row->num_facture) || $row->num_facture == '0') {
+               $row->num_facture = 'FACTURE-' . date('YmdHis');
+           }
+           if (empty($row->date_facture) || $row->date_facture == '0000-00-00') {
+               $row->date_facture = date('Y-m-d');
+           }
+       }
+       unset($row);
         $this->fpdf->Image(base_url("assets/images/Facturess.jpg"),0,10,200,0,'','');
         foreach ($data as $row) {
                 $this->fpdf->SetY(65);
