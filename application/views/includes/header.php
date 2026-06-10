@@ -31,6 +31,8 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/dist/css/styles.css'; ?>">
     <link href="<?php echo base_url('/assets/dist/css/jquery.multiselect.css'); ?>" rel="stylesheet" type="text/css">
+    <!-- Améliorations CIAS (stepper, autocomplete, boutons documents) - juin 2026 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/dist/css/cias-ameliorations.css'; ?>">
 
     
 

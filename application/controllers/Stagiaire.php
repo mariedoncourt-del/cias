@@ -9951,10 +9951,12 @@ public function liste_stagiaire()
                         <td class="border-primary">'.$this->stagiaire_model->recherche_entreprise($row->nom_stagiaire, $row->prenom_stagiaire).'</td>
                         <td class="border-primary">'.$this->stagiaire_model->recherche_nom_formation($row->id_formation).'</td>
                         <td class="border-primary">
-                        <a href=\''.site_url("stagiaire/imprimer").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-success" target="_blank">Formulaire</a>
-                        <a href=\''.site_url("stagiaire/imprimer_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-success" target="_blank">Formulaire Image</a></td>
-                        <td class="border-primary"><a href=\''.site_url("stagiaire/imprimer_convention").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-warning" target="_blank">Convention</a>
-                        <a href=\''.site_url("stagiaire/imprimer_convention_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-warning" target="_blank">Convention Image</a>
+                        <a href=\''.site_url("stagiaire/imprimer").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-success cias-btn-doc" target="_blank" title="Générer le formulaire de prise en charge (PDF)">📄 Générer le formulaire</a>
+                        <a href=\''.site_url("stagiaire/imprimer_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-outline-success btn-sm" target="_blank" title="Version image (aperçu)">🖼 Aperçu</a></td>
+                        <td class="border-primary"><a href=\''.site_url("stagiaire/imprimer_convention").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-warning cias-btn-doc" target="_blank" title="Générer la convention de formation (PDF)">📄 Générer la convention</a>
+                        <a href=\''.site_url("stagiaire/imprimer_convention_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-outline-warning btn-sm" target="_blank" title="Version image (aperçu)">🖼 Aperçu</a>
+                        <button type="button" class="btn btn-info btn-sm cias-btn-email" data-nom_stagiaire="'.htmlspecialchars($row->nom_stagiaire, ENT_QUOTES).'" data-prenom_stagiaire="'.htmlspecialchars($row->prenom_stagiaire, ENT_QUOTES).'" data-id_formation="'.htmlspecialchars($row->id_formation, ENT_QUOTES).'" data-id_convention="'.$row->id.'" title="Envoyer le dossier par email (destinataires pré-configurés)">📧 Envoyer par email</button>
+                        <button type="button" class="btn btn-secondary btn-sm cias-btn-dupliquer" data-nom_stagiaire="'.htmlspecialchars($row->nom_stagiaire, ENT_QUOTES).'" data-prenom_stagiaire="'.htmlspecialchars($row->prenom_stagiaire, ENT_QUOTES).'" data-id_convention="'.$row->id.'" title="Créer un nouveau dossier pré-rempli à partir de celui-ci">🔄 Dupliquer ce dossier</button>
                         </td>
 
 
@@ -10100,11 +10102,13 @@ public function afficher_kaliopi()
                         <td class="border-primary">'.$row->prenom_stagiaire.'</td>
                         <td class="border-primary">'.$this->stagiaire_model->recherche_entreprise($row->nom_stagiaire, $row->prenom_stagiaire).'</td>
                         <td class="border-primary">'.$this->stagiaire_model->recherche_nom_formation($row->id_formation).'</td>
-                       <td class="border-primary"><a href=\''.site_url("stagiaire/imprimer").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-success" target="_blank">Formulaire</a>
-<a href=\''.site_url("stagiaire/imprimer_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-success" target="_blank">Formulaire Image</a>
+                       <td class="border-primary"><a href=\''.site_url("stagiaire/imprimer").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-success cias-btn-doc" target="_blank" title="Générer le formulaire de prise en charge (PDF)">📄 Générer le formulaire</a>
+<a href=\''.site_url("stagiaire/imprimer_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-outline-success btn-sm" target="_blank" title="Version image (aperçu)">🖼 Aperçu</a>
                        </td>
-                        <td class="border-primary"><a href=\''.site_url("stagiaire/imprimer_convention").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-warning" target="_blank">Convention</a>
-<a href=\''.site_url("stagiaire/imprimer_convention_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-warning" target="_blank">Convention Image</a>
+                        <td class="border-primary"><a href=\''.site_url("stagiaire/imprimer_convention").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-warning cias-btn-doc" target="_blank" title="Générer la convention de formation (PDF)">📄 Générer la convention</a>
+<a href=\''.site_url("stagiaire/imprimer_convention_img").'/'.$row->nom_stagiaire.'/'.$row->prenom_stagiaire.'/'.$row->id_formation.'/'.$row->id.'\' class="btn btn-outline-warning btn-sm" target="_blank" title="Version image (aperçu)">🖼 Aperçu</a>
+                        <button type="button" class="btn btn-info btn-sm cias-btn-email" data-nom_stagiaire="'.htmlspecialchars($row->nom_stagiaire, ENT_QUOTES).'" data-prenom_stagiaire="'.htmlspecialchars($row->prenom_stagiaire, ENT_QUOTES).'" data-id_formation="'.htmlspecialchars($row->id_formation, ENT_QUOTES).'" data-id_convention="'.$row->id.'" title="Envoyer le dossier par email (destinataires pré-configurés)">📧 Envoyer par email</button>
+                        <button type="button" class="btn btn-secondary btn-sm cias-btn-dupliquer" data-nom_stagiaire="'.htmlspecialchars($row->nom_stagiaire, ENT_QUOTES).'" data-prenom_stagiaire="'.htmlspecialchars($row->prenom_stagiaire, ENT_QUOTES).'" data-id_convention="'.$row->id.'" title="Créer un nouveau dossier pré-rempli à partir de celui-ci">🔄 Dupliquer ce dossier</button>
                         </td>
 
 
@@ -15008,5 +15012,209 @@ foreach (range('I',  $objPHPExcel->getActiveSheet()->getHighestDataColumn()) as 
         echo json_encode($rows, JSON_UNESCAPED_UNICODE);
     }
 
+    /* ================================================================
+     * AMELIORATIONS CIAS - juin 2026
+     * (autocomplete entreprise / point d'accueil, duplication de dossier,
+     *  envoi du dossier par email)
+     * ================================================================ */
+
+    /**
+     * Amelioration #2 - Autocomplete entreprise
+     * Retourne les entreprises connues + SIRET / NAF / adresse pour pre-remplissage
+     * URL: stagiaire/get_autocomplete_entreprise?term=XXX
+     */
+    public function get_autocomplete_entreprise() {
+        header('Content-Type: application/json; charset=utf-8');
+        $term = $this->input->get('term');
+        if (!$term || strlen(trim($term)) < 2) { echo '[]'; return; }
+
+        $like = '%' . trim($term) . '%';
+        $sql = "SELECT nom_entreprise, nom_commercial, code_naf, numero_siret,
+                       activite, forme_juridique, rue, code_postal, ville, num_accueil
+                FROM Stagiaire
+                WHERE (nom_entreprise LIKE ? OR nom_commercial LIKE ? OR numero_siret LIKE ?)
+                  AND nom_entreprise IS NOT NULL AND nom_entreprise <> ''
+                GROUP BY nom_entreprise, numero_siret
+                ORDER BY nom_entreprise ASC LIMIT 15";
+        $query = $this->db->query($sql, array($like, $like, $like));
+        $rows = array();
+        foreach ($query->result_array() as $r) {
+            $rows[] = array(
+                'label'          => trim($r['nom_entreprise']) . ($r['numero_siret'] ? ' — SIRET ' . $r['numero_siret'] : ''),
+                'value'          => $r['nom_entreprise'],
+                'nom_entreprise' => $r['nom_entreprise'],
+                'nom_commercial' => $r['nom_commercial'],
+                'code_naf'       => $r['code_naf'],
+                'numero_siret'   => $r['numero_siret'],
+                'activite'       => $r['activite'],
+                'forme_juridique'=> $r['forme_juridique'],
+                'rue'            => $r['rue'],
+                'code_postal'    => $r['code_postal'],
+                'ville'          => $r['ville'],
+                'num_accueil'    => $r['num_accueil'],
+            );
+        }
+        echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Amelioration #3 - Recherche de point d'accueil
+     * Permet de trouver un point d'accueil par nom, numero ou ville
+     * (ex : "CCI" -> liste de tous les CCI pour choisir le bon)
+     * URL: stagiaire/get_autocomplete_accueil?term=XXX
+     */
+    public function get_autocomplete_accueil() {
+        header('Content-Type: application/json; charset=utf-8');
+        $term = $this->input->get('term');
+        if (!$term || strlen(trim($term)) < 1) { echo '[]'; return; }
+
+        $like = '%' . trim($term) . '%';
+        $sql = "SELECT num_accueil, nom_accueil, interlocuteur, adresse, code_postal, ville, tel, mail
+                FROM accueil
+                WHERE nom_accueil LIKE ? OR num_accueil LIKE ? OR ville LIKE ?
+                ORDER BY nom_accueil ASC LIMIT 20";
+        $query = $this->db->query($sql, array($like, $like, $like));
+        $rows = array();
+        foreach ($query->result_array() as $r) {
+            $rows[] = array(
+                'label'        => $r['nom_accueil'] . ' (' . $r['num_accueil'] . ')' . ($r['ville'] ? ' — ' . $r['ville'] : ''),
+                'value'        => $r['num_accueil'],
+                'num_accueil'  => $r['num_accueil'],
+                'nom_accueil'  => $r['nom_accueil'],
+                'interlocuteur'=> $r['interlocuteur'],
+                'adresse'      => $r['adresse'],
+                'code_postal'  => $r['code_postal'],
+                'ville'        => $r['ville'],
+                'tel'          => $r['tel'],
+                'mail'         => $r['mail'],
+            );
+        }
+        echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Amelioration #1 - Duplication de dossier
+     * Retourne toutes les donnees d'un dossier existant (stagiaire + entreprise + convention)
+     * pour pre-remplir un nouveau dossier.
+     * URL: stagiaire/get_dossier_modele?nom=X&prenom=Y&id_convention=Z
+     */
+    public function get_dossier_modele() {
+        header('Content-Type: application/json; charset=utf-8');
+        $nom     = $this->input->get('nom');
+        $prenom  = $this->input->get('prenom');
+        $id_conv = $this->input->get('id_convention');
+
+        if (!$nom) { echo json_encode(array('error' => 'Parametre nom manquant')); return; }
+
+        $stag = $this->db->query(
+            "SELECT * FROM Stagiaire WHERE UPPER(TRIM(nom_stagiaire)) = UPPER(TRIM(?)) AND UPPER(TRIM(prenom_stagiaire)) = UPPER(TRIM(?)) LIMIT 1",
+            array($nom, (string)$prenom)
+        )->row_array();
+
+        $conv = null;
+        if ($id_conv) {
+            $conv = $this->db->query("SELECT * FROM Convention WHERE id = ?", array($id_conv))->row_array();
+        }
+
+        $nom_formation = '';
+        if ($conv && !empty($conv['id_formation'])) {
+            $nom_formation = $this->stagiaire_model->recherche_nom_formation($conv['id_formation']);
+        }
+
+        // Ne pas exposer la signature dans le JSON
+        if ($stag && isset($stag['signature'])) { unset($stag['signature']); }
+
+        echo json_encode(array(
+            'stagiaire'     => $stag ? $stag : new stdClass(),
+            'convention'    => $conv ? $conv : new stdClass(),
+            'nom_formation' => $nom_formation,
+        ), JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Amelioration #4 / #6 - Envoi du dossier par email
+     * Destinataires pre-configures dans application/config/cias_notifications.php
+     * Corps d'email pre-rempli avec les infos du dossier + liens vers les documents.
+     * URL (POST): stagiaire/envoyer_dossier_email
+     */
+    public function envoyer_dossier_email() {
+        header('Content-Type: application/json; charset=utf-8');
+
+        $nom          = $this->input->post('nom_stagiaire');
+        $prenom       = $this->input->post('prenom_stagiaire');
+        $id_formation = $this->input->post('id_formation');
+        $id_conv      = $this->input->post('id_convention');
+        $extra        = trim((string)$this->input->post('email_supplementaire'));
+
+        if (!$nom || !$id_formation) {
+            echo json_encode(array('error' => 'Parametres manquants (nom_stagiaire, id_formation)'));
+            return;
+        }
+
+        // Charger la configuration des destinataires
+        $this->config->load('cias_notifications', TRUE);
+        $from      = $this->config->item('cias_email_from', 'cias_notifications');
+        $from_name = $this->config->item('cias_email_from_name', 'cias_notifications');
+        $dest      = $this->config->item('cias_email_destinataires', 'cias_notifications');
+        $cc        = $this->config->item('cias_email_cc', 'cias_notifications');
+        $sujet_tpl = $this->config->item('cias_email_sujet', 'cias_notifications');
+
+        if (!$from)      $from = 'contact@formacall.fr';
+        if (!$from_name) $from_name = 'CIAS - MAF Formation';
+        if (!is_array($dest)) $dest = array();
+        if (!is_array($cc))   $cc = array();
+        if ($extra && filter_var($extra, FILTER_VALIDATE_EMAIL)) { $dest[] = $extra; }
+        $dest = array_values(array_unique(array_filter($dest)));
+
+        if (empty($dest)) {
+            echo json_encode(array('error' => 'Aucun destinataire configure (application/config/cias_notifications.php)'));
+            return;
+        }
+
+        // Infos du dossier
+        $entreprise = $this->stagiaire_model->recherche_entreprise($nom, (string)$prenom);
+        $formation  = $this->stagiaire_model->recherche_nom_formation($id_formation);
+
+        $seg = rawurlencode($nom) . '/' . rawurlencode((string)$prenom) . '/' . rawurlencode($id_formation) . '/' . rawurlencode((string)$id_conv);
+        $url_formulaire = site_url('stagiaire/imprimer/' . $seg);
+        $url_convention = site_url('stagiaire/imprimer_convention/' . $seg);
+
+        $sujet = $sujet_tpl ? $sujet_tpl : 'Dossier de prise en charge - {stagiaire} - {formation}';
+        $sujet = str_replace(
+            array('{stagiaire}', '{formation}'),
+            array(trim($nom . ' ' . $prenom), $formation),
+            $sujet
+        );
+
+        $message  = '<html><body style="font-family:Arial,sans-serif;color:#333;">';
+        $message .= '<h2 style="color:#2c5aa0;">Dossier de prise en charge</h2>';
+        $message .= '<table cellpadding="6" style="border-collapse:collapse;">';
+        $message .= '<tr><td><b>Stagiaire</b></td><td>' . htmlspecialchars(trim($nom . ' ' . $prenom)) . '</td></tr>';
+        $message .= '<tr><td><b>Entreprise</b></td><td>' . htmlspecialchars((string)$entreprise) . '</td></tr>';
+        $message .= '<tr><td><b>Formation</b></td><td>' . htmlspecialchars((string)$formation) . '</td></tr>';
+        $message .= '<tr><td><b>Date d\'envoi</b></td><td>' . date('d/m/Y H:i') . '</td></tr>';
+        $message .= '</table>';
+        $message .= '<p><b>Documents :</b></p><ul>';
+        $message .= '<li><a href="' . $url_formulaire . '">📄 Formulaire de prise en charge (PDF)</a></li>';
+        $message .= '<li><a href="' . $url_convention . '">📄 Convention de formation (PDF)</a></li>';
+        $message .= '</ul>';
+        $message .= '<p style="color:#888;font-size:12px;">Email envoye automatiquement depuis l\'application CIAS - MAF Formation.</p>';
+        $message .= '</body></html>';
+
+        $this->load->library('email');
+        $config_mail = array('charset' => 'utf-8', 'mailtype' => 'html');
+        $this->email->initialize($config_mail);
+        $this->email->from($from, $from_name);
+        $this->email->to($dest);
+        if (!empty($cc)) { $this->email->cc($cc); }
+        $this->email->subject($sujet);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            echo json_encode(array('success' => 'Email envoye a : ' . implode(', ', $dest)), JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(array('error' => 'Echec de l\'envoi de l\'email. Verifiez la configuration SMTP.'), JSON_UNESCAPED_UNICODE);
+        }
+    }
 
 }
